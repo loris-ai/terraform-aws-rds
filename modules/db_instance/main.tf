@@ -29,6 +29,10 @@ resource "random_id" "snapshot_identifier" {
 resource "aws_db_instance" "this" {
   count = var.create ? 1 : 0
 
+  lifecycle {
+    create_before_destroy = true
+  }
+
   identifier        = local.identifier
   identifier_prefix = local.identifier_prefix
 
@@ -80,13 +84,6 @@ resource "aws_db_instance" "this" {
   }
 
 
-  lifecycle {
-      ignore_changes = [
-        latest_restorable_time
-      ]
-      create_before_destroy = true
-    }
-  }
 
   snapshot_identifier       = var.snapshot_identifier
   copy_tags_to_snapshot     = var.copy_tags_to_snapshot
