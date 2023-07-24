@@ -135,6 +135,16 @@ module "db_instance" {
 
   timeouts = var.timeouts
 
+  lifecycle {
+      ignore_changes = [
+        latest_restorable_time
+      ]
+      create_before_destroy = true
+    }
+  }
+
+
+
   deletion_protection      = var.deletion_protection
   delete_automated_backups = var.delete_automated_backups
 
