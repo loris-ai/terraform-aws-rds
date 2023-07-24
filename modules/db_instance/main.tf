@@ -79,6 +79,15 @@ resource "aws_db_instance" "this" {
     }
   }
 
+
+  lifecycle {
+      ignore_changes = [
+        latest_restorable_time
+      ]
+      create_before_destroy = true
+    }
+  }
+
   snapshot_identifier       = var.snapshot_identifier
   copy_tags_to_snapshot     = var.copy_tags_to_snapshot
   skip_final_snapshot       = var.skip_final_snapshot
